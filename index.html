@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Actividades Rurales Interactivas</title>
+    <style>
+        :root {
+            --bg: #f6fbf4;
+            --card: #ffffff;
+            --primary: #2f855a;
+            --primary-dark: #276749;
+            --secondary: #dff3e7;
+            --accent: #f6ad55;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --success: #2b9348;
+            --shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+            --radius: 22px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(180deg, #eef8ec 0%, #f9fcf7 100%);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #d8f3dc, #ffffff);
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            margin: 0 0 12px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--primary-dark);
+        }
+
+        .hero p {
+            margin: 0;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #35523f;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #fff7e6;
+            color: #9c5d12;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            font-size: 0.95rem;
+        }
+
+        .hero-figure {
+            background: radial-gradient(circle at top, #fffdf2, #dff3e7);
+            border-radius: 28px;
+            min-height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            border: 3px dashed #b7dfc4;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 22px 0;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            margin: 0;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .stat-card p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .panel {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .panel h2 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .activities {
+            display: grid;
+            gap: 14px;
+        }
+
+        .activity {
+            border: 2px solid #e5f3e8;
+            border-radius: 18px;
+            padding: 16px;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            background: #fcfffc;
+        }
+
+        .activity:hover {
+            transform: translateY(-3px);
+            border-color: #9fd3af;
+            box-shadow: 0 10px 20px rgba(47, 133, 90, 0.08);
+        }
+
+        .activity.done {
+            background: #edf9f0;
+            border-color: #73c08b;
+        }
+
+        .activity-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .activity h3 {
+            margin: 0;
+            font-size: 1.08rem;
+            color: #244b35;
+        }
+
+        .activity p {
+            margin: 8px 0 0;
+            color: #51635a;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .tag {
+            background: var(--secondary);
+            color: var(--primary-dark);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .reward-box {
+            background: linear-gradient(135deg, #fff8e7, #ffffff);
+            border: 2px dashed #f6ad55;
+            border-radius: 18px;
+            padding: 18px;
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .reward-box .big {
+            font-size: 2.6rem;
+            margin: 8px 0;
+        }
+
+        .question-card {
+            background: #f7fbff;
+            border-radius: 18px;
+            padding: 16px;
+            border: 2px solid #d6eaff;
+            margin-bottom: 14px;
+        }
+
+        .question-card h3 {
+            margin-top: 0;
+            font-size: 1.05rem;
+            color: #22577a;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .option-btn,
+        .main-btn {
+            border: none;
+            border-radius: 14px;
+            padding: 12px 14px;
+            font-size: 0.98rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s ease, opacity 0.2s ease;
+        }
+
+        .option-btn:hover,
+        .main-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+
+        .option-btn {
+            background: #e8f4ff;
+            color: #1d4e89;
+            text-align: left;
+        }
+
+        .option-btn.correct {
+            background: #dff5e6;
+            color: #1d6b38;
+        }
+
+        .option-btn.wrong {
+            background: #ffe5e5;
+            color: #9b2226;
+        }
+
+        .main-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .small-note {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .progress-wrap {
+            background: #edf6ef;
+            height: 16px;
+            border-radius: 999px;
+            overflow: hidden;
+            margin: 10px 0 6px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #48bb78, #2f855a);
+            transition: width 0.3s ease;
+            border-radius: 999px;
+        }
+
+        .footer-tip {
+            margin-top: 22px;
+            background: #f1f8f2;
+            border-left: 6px solid var(--accent);
+            padding: 16px;
+            border-radius: 14px;
+            line-height: 1.6;
+            color: #3e5545;
+        }
+
+        @media (max-width: 860px) {
+
+            .hero,
+            .grid,
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-figure {
+                min-height: 160px;
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <section class="hero">
+            <div>
+                <div class="badge">Aprender con la realidad del campo</div>
+                <h1>Escuela y comunidad juntas</h1>
+                <p>
+                    Este espacio propone actividades sencillas para niños de comunidades rurales.
+                    La idea es que puedan aprender con tareas cercanas a su vida diaria: la chacra,
+                    los animales, la familia, el clima y la comunidad.
+                </p>
+            </div>
+            <div class="hero-figure" aria-hidden="true">🌱📚</div>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card">
+                <h3 id="doneCount">0</h3>
+                <p>Actividades completadas</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="pointsCount">0</h3>
+                <p>Puntos ganados</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="quizCount">0</h3>
+                <p>Respuestas correctas</p>
+            </div>
+        </section>
+
+        <section class="grid">
+            <div class="panel">
+                <h2>Mis actividades de la semana</h2>
+                <div class="progress-wrap">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <p class="small-note" id="progressText">Todavía no completas actividades.</p>
+
+                <div class="activities" id="activityList">
+                    <div class="activity" data-points="10">
+                        <div class="activity-top">
+                            <h3>🌽 Contar semillas y sumar</h3>
+                            <span class="tag">Matemática</span>
+                        </div>
+                        <p>Cuenta semillas de maíz o fréjol y agrúpalas en montones. Después suma cuántas hay en total.
+                        </p>
+                    </div>
+
+                    <div class="activity" data-points="10">
+                        <div class="activity-top">
+                            <h3>🐔 Observar animales de casa</h3>
+                            <span class="tag">Ciencias</span>
+                        </div>
+                        <p>Mira cómo comen, caminan o descansan los animales. Luego cuenta lo que viste con tus
+                            palabras.</p>
+                    </div>
+
+                    <div class="activity" data-points="15">
+                        <div class="activity-top">
+                            <h3>☁️ Diario del clima</h3>
+                            <span class="tag">Entorno</span>
+                        </div>
+                        <p>Escribe o dibuja cómo estuvo el día: sol, lluvia, viento o frío. Relaciónalo con el trabajo
+                            del campo.</p>
+                    </div>
+
+                    <div class="activity" data-points="15">
+                        <div class="activity-top">
+                            <h3>🧺 Leer y escribir con objetos del hogar</h3>
+                            <span class="tag">Lengua</span>
+                        </div>
+                        <p>Escoge 5 objetos de casa y escribe su nombre. Después forma una oración con uno de ellos.</p>
+                    </div>
+
+                    <div class="activity" data-points="20">
+                        <div class="activity-top">
+                            <h3>🗺️ Mi comunidad en un dibujo</h3>
+                            <span class="tag">Sociales</span>
+                        </div>
+                        <p>Dibuja tu casa, el camino, la escuela, la cancha o la tienda. Así reconoces tu comunidad y
+                            sus espacios.</p>
+                    </div>
+                </div>
+
+                <div class="reward-box">
+                    <div>Premio por esfuerzo</div>
+                    <div class="big" id="rewardEmoji">🌟</div>
+                    <div id="rewardText">Completa actividades para desbloquear una felicitación.</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Juego de preguntas</h2>
+
+                <div class="question-card">
+                    <h3>1. Si tengo 3 sacos y en cada saco hay 2 mazorcas, ¿cuántas mazorcas hay?</h3>
+                    <div class="options" data-answer="6">
+                        <button class="option-btn">4</button>
+                        <button class="option-btn">5</button>
+                        <button class="option-btn">6</button>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <h3>2. ¿Qué actividad ayuda a observar la naturaleza?</h3>
+                    <div class="options" data-answer="Observar el clima y los animales">
+                        <button class="option-btn">Dormir toda la tarde</button>
+                        <button class="option-btn">Observar el clima y los animales</button>
+                        <button class="option-btn">Guardar todo sin mirar</button>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <h3>3. Aprender con la vida diaria del campo sirve para...</h3>
+                    <div class="options" data-answer="Entender mejor y no alejar la escuela de la realidad">
+                        <button class="option-btn">Hacer la escuela más difícil</button>
+                        <button class="option-btn">Entender mejor y no alejar la escuela de la realidad</button>
+                        <button class="option-btn">Quitar el valor del estudio</button>
+                    </div>
+                </div>
+
+                <button class="main-btn" id="resetBtn">Reiniciar actividades</button>
+
+                <div class="footer-tip">
+                    <strong>Idea clave:</strong> estas actividades están pensadas para que el aprendizaje no dependa
+                    solo del aula.
+                    Pueden hacerse con pocos recursos, usando lo que existe en la comunidad y conectando la escuela con
+                    la vida real.
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const activities = document.querySelectorAll('.activity');
+        const doneCount = document.getElementById('doneCount');
+        const pointsCount = document.getElementById('pointsCount');
+        const quizCount = document.getElementById('quizCount');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const rewardEmoji = document.getElementById('rewardEmoji');
+        const rewardText = document.getElementById('rewardText');
+        const resetBtn = document.getElementById('resetBtn');
+
+        let completed = 0;
+        let points = 0;
+        let correctAnswers = 0;
+
+        function updateStats() {
+            doneCount.textContent = completed;
+            pointsCount.textContent = points;
+            quizCount.textContent = correctAnswers;
+
+            const total = activities.length;
+            const percent = (completed / total) * 100;
+            progressBar.style.width = percent + '%';
+            progressText.textContent = completed === 0
+                ? 'Todavía no completas actividades.'
+                : `Has completado ${completed} de ${total} actividades.`;
+
+            if (points >= 70) {
+                rewardEmoji.textContent = '🏆';
+                rewardText.textContent = '¡Excelente! Estás aprendiendo con esfuerzo y creatividad.';
+            } else if (points >= 40) {
+                rewardEmoji.textContent = '🎉';
+                rewardText.textContent = '¡Muy bien! Sigue avanzando y descubrirás más aprendizajes.';
+            } else if (points > 0) {
+                rewardEmoji.textContent = '🌟';
+                rewardText.textContent = 'Buen comienzo. Cada actividad completada cuenta.';
+            } else {
+                rewardEmoji.textContent = '🌱';
+                rewardText.textContent = 'Completa actividades para desbloquear una felicitación.';
+            }
+        }
+
+        activities.forEach(activity => {
+            activity.addEventListener('click', () => {
+                const value = Number(activity.dataset.points);
+                if (!activity.classList.contains('done')) {
+                    activity.classList.add('done');
+                    completed++;
+                    points += value;
+                } else {
+                    activity.classList.remove('done');
+                    completed--;
+                    points -= value;
+                }
+                updateStats();
+            });
+        });
+
+        document.querySelectorAll('.options').forEach(group => {
+            const answer = group.dataset.answer;
+            const buttons = group.querySelectorAll('.option-btn');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    if (group.dataset.locked === 'true') return;
+
+                    group.dataset.locked = 'true';
+                    if (button.textContent.trim() === answer.trim()) {
+                        button.classList.add('correct');
+                        correctAnswers++;
+                        points += 5;
+                    } else {
+                        button.classList.add('wrong');
+                        buttons.forEach(btn => {
+                            if (btn.textContent.trim() === answer.trim()) {
+                                btn.classList.add('correct');
+                            }
+                        });
+                    }
+                    updateStats();
+                });
+            });
+        });
+
+        resetBtn.addEventListener('click', () => {
+            completed = 0;
+            points = 0;
+            correctAnswers = 0;
+
+            activities.forEach(activity => activity.classList.remove('done'));
+
+            document.querySelectorAll('.options').forEach(group => {
+                group.dataset.locked = 'false';
+                group.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.classList.remove('correct', 'wrong');
+                });
+            });
+
+            updateStats();
+        });
+
+        updateStats();
+    </script>
+</body>
+
+</html>
